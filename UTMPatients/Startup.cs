@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UTMPatients.Data;
+using UTMPatients.Models;
 
 namespace UTMPatients
 {
@@ -30,6 +31,9 @@ namespace UTMPatients
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<PatientsContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("PatientConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
