@@ -19,12 +19,14 @@ namespace UTMPatients.Controllers
         }
 
         // GET: UTMConcentrationUnits
+        // it is the main method which redirect to the view of the respective controller when its clicked on header tab
         public async Task<IActionResult> Index()
         {
             return View(await _context.ConcentrationUnit.ToListAsync());
         }
 
         // GET: UTMConcentrationUnits/Details/5
+        //its a detail method which get the details of all concentration unit model and show it to list
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -43,6 +45,7 @@ namespace UTMPatients.Controllers
         }
 
         // GET: UTMConcentrationUnits/Create
+        // it is the method to create a new Concentration Unit
         public IActionResult Create()
         {
             return View();
@@ -51,6 +54,7 @@ namespace UTMPatients.Controllers
         // POST: UTMConcentrationUnits/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // this is a save method it saves data when user click on submit 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ConcentrationCode")] ConcentrationUnit concentrationUnit)
@@ -83,6 +87,7 @@ namespace UTMPatients.Controllers
         // POST: UTMConcentrationUnits/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //it is a edit method it edits data from that id when user click on edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("ConcentrationCode")] ConcentrationUnit concentrationUnit)
@@ -116,6 +121,7 @@ namespace UTMPatients.Controllers
         }
 
         // GET: UTMConcentrationUnits/Delete/5
+        // its a delete method it will get infromation from id
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -134,6 +140,7 @@ namespace UTMPatients.Controllers
         }
 
         // POST: UTMConcentrationUnits/Delete/5
+        // it delete data when user click on submit the data will be delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)

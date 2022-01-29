@@ -19,12 +19,14 @@ namespace UTMPatients.Controllers
         }
 
         // GET: UTMDispensingUnits
+        // it is the main method which redirect to the view of the respective controller when its clicked on the header tab
         public async Task<IActionResult> Index()
         {
             return View(await _context.DispensingUnit.ToListAsync());
         }
 
         // GET: UTMDispensingUnits/Details/5
+        //its a detail method which get the details of all concentration unit model and show it to list
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -43,6 +45,7 @@ namespace UTMPatients.Controllers
         }
 
         // GET: UTMDispensingUnits/Create
+        // it create a new concentration unit
         public IActionResult Create()
         {
             return View();
@@ -51,6 +54,7 @@ namespace UTMPatients.Controllers
         // POST: UTMDispensingUnits/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // this is a save method it saves data when user click on submit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("DispensingCode")] DispensingUnit dispensingUnit)
@@ -65,6 +69,7 @@ namespace UTMPatients.Controllers
         }
 
         // GET: UTMDispensingUnits/Edit/5
+        //it is a edit method it edits data from that id when user click on edit
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -83,6 +88,7 @@ namespace UTMPatients.Controllers
         // POST: UTMDispensingUnits/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // it post data when user click on submit button and save the edits
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("DispensingCode")] DispensingUnit dispensingUnit)
@@ -116,6 +122,7 @@ namespace UTMPatients.Controllers
         }
 
         // GET: UTMDispensingUnits/Delete/5
+        // its a delete method it will get infromation from that id when user click on delete
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -134,6 +141,7 @@ namespace UTMPatients.Controllers
         }
 
         // POST: UTMDispensingUnits/Delete/5
+        // it delete data when user click on submit the data will be delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
