@@ -4,10 +4,12 @@
     ViewData["Title"] = "Medication Type";
 }
 
-<h1>Medication Type</h1>
+<h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Create New Medication Type</a>
+    <a style="color:red;" class="font-weight-bolder">@TempData["Info"]</a>
+
 </p>
 <table class="table">
     <thead>
@@ -22,20 +24,21 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.MedicationTypeId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MedicationTypeId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MedicationTypeId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MedicationTypeId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MedicationTypeId)
+                </td>
+                <td>
+                    <a asp-controller="UTMMedications" asp-action="Index" asp-route-medId="@item.MedicationTypeId" asp-route-medName="@item.Name">@item.Name</a>
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.MedicationTypeId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.MedicationTypeId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.MedicationTypeId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

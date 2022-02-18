@@ -22,7 +22,7 @@ namespace UTMPatients.Controllers
         // it is the main method which redirect to the view of the respective controller when its clicked on the header tab
         public async Task<IActionResult> Index()
         {
-            return View(await _context.MedicationType.ToListAsync());
+            return View(await _context.MedicationType.OrderBy(a=>a.Name).ToListAsync());
         }
 
         // GET: UTMMedicationTypes/Details/5
