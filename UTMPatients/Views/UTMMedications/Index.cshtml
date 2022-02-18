@@ -7,11 +7,14 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create" asp-route-medName="@TempData["MedicationName"]" asp-route-medId="@TempData["MedicationTypeId"]">Create New</a>
+    <a asp-action="Create" asp-route-medName="@TempData["MedicationName"]" asp-route-medTypeId="@TempData["MedicationTypeId"]">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Din)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -36,6 +39,9 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Din)
+            </th>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>

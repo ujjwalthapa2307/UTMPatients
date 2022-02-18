@@ -1,7 +1,7 @@
 ﻿@model UTMPatients.Models.Medication
 
 @{
-    ViewData["Title"] = "Edit medication for";
+    ViewData["Title"] = "Edit medication for " + Model.MedicationType.Name;
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -13,6 +13,13 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Din" />
+            <input type="hidden" asp-for="ConcentrationCode" value="@Model.ConcentrationCode" />
+            <input type="hidden" asp-for="MedicationTypeId" value="@Model.MedicationType.MedicationTypeId" />
+            <div class="form-group">
+                <label asp-for="Din" class="control-label"></label>
+                <input readonly asp-for="Din" class="form-control" />
+                <span asp-validation-for="Din" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -23,11 +30,7 @@
                 <input asp-for="Image" class="form-control" />
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="MedicationTypeId" class="control-label"></label>
-                <select asp-for="MedicationTypeId" class="form-control" asp-items="ViewBag.MedicationTypeId"></select>
-                <span asp-validation-for="MedicationTypeId" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <label asp-for="DispensingCode" class="control-label"></label>
                 <select asp-for="DispensingCode" class="form-control" asp-items="ViewBag.DispensingCode"></select>
@@ -35,12 +38,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Concentration" class="control-label"></label>
-                <input asp-for="Concentration" class="form-control" />
+                <input readonly asp-for="Concentration" class="form-control" />
                 <span asp-validation-for="Concentration" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ConcentrationCode" class="control-label"></label>
-                <select asp-for="ConcentrationCode" class="form-control" asp-items="ViewBag.ConcentrationCode"></select>
+                <select disabled asp-for="ConcentrationCode" class="form-control" asp-items="ViewBag.ConcentrationCode"></select>
                 <span asp-validation-for="ConcentrationCode" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -51,7 +54,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-route-medId="@Model.MedicationType.MedicationTypeId" asp-route-medName="@Model.MedicationType.Name">Back to List</a>
 </div>
 
 @section Scripts {

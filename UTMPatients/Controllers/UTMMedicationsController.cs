@@ -74,11 +74,12 @@ namespace UTMPatients.Controllers
         }
 
         // GET: UTMMedications/Create
-        public IActionResult Create()
+        public IActionResult Create(string medName, int medTypeId)
         {
-            ViewData["ConcentrationCode"] = new SelectList(_context.ConcentrationUnit, "ConcentrationCode", "ConcentrationCode");
-            ViewData["DispensingCode"] = new SelectList(_context.DispensingUnit, "DispensingCode", "DispensingCode");
-            ViewData["MedicationTypeId"] = new SelectList(_context.MedicationType, "MedicationTypeId", "Name");
+            ViewData["MedicationName"] = medName;
+            ViewData["ConcentrationCode"] = new SelectList(_context.ConcentrationUnit.OrderBy(x => x.ConcentrationCode), "ConcentrationCode", "ConcentrationCode");
+            ViewData["DispensingCode"] = new SelectList(_context.DispensingUnit.OrderBy(x => x.DispensingCode), "DispensingCode", "DispensingCode");
+            ViewData["MedicationTypeId"] = medTypeId;
             return View();
         }
 
@@ -91,9 +92,22 @@ namespace UTMPatients.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(medication);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var patientsContext = _context.Medication.Include(c => c.ConcentrationCodeNavigation).Include(c => c.MedicationType).Where(x => x.MedicationTypeId == medication.MedicationTypeId);
+                ViewData["MedicationName"] = patientsContext.FirstOrDefault()?.MedicationType.Name;
+                if (patientsContext.Any(n => n.Name == medication.Name))
+                {
+                    ViewData["Error"] = "Medication name already exists.";
+                }
+                else if (patientsContext.Any(c => c.Concentration == medication.Concentration && c.ConcentrationCode == medication.ConcentrationCode))
+                {
+                    ViewData["Error"] = "Medication concentration and code already exists.";
+                }
+                else
+                {
+                    _context.Add(medication);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index), new { medId = medication.MedicationTypeId });
+                }
             }
             ViewData["ConcentrationCode"] = new SelectList(_context.ConcentrationUnit, "ConcentrationCode", "ConcentrationCode", medication.ConcentrationCode);
             ViewData["DispensingCode"] = new SelectList(_context.DispensingUnit, "DispensingCode", "DispensingCode", medication.DispensingCode);
@@ -109,7 +123,7 @@ namespace UTMPatients.Controllers
                 return NotFound();
             }
 
-            var medication = await _context.Medication.FindAsync(id);
+            var medication = await _context.Medication.Include(m => m.MedicationType).FirstOrDefaultAsync(m => m.Din == id);
             if (medication == null)
             {
                 return NotFound();
@@ -150,7 +164,7 @@ namespace UTMPatients.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { medId = medication.MedicationTypeId });
             }
             ViewData["ConcentrationCode"] = new SelectList(_context.ConcentrationUnit, "ConcentrationCode", "ConcentrationCode", medication.ConcentrationCode);
             ViewData["DispensingCode"] = new SelectList(_context.DispensingUnit, "DispensingCode", "DispensingCode", medication.DispensingCode);
